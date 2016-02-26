@@ -36,3 +36,98 @@ databaseChangeLog:
               - column:
                   name: last_name
                   value: Overdijk
+  - changeSet:
+      id: 3
+      author: evgeny
+      changes:
+        - dropTable:
+            tableName: person
+  - changeSet:
+      id: 4
+      author: evgeny
+      changes:
+        - createTable:
+            tableName: workspaces
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: widgets
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: widget_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: widget_location
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: widget_id
+                  type: int(11)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: workspace_id
+                  type: int(11)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: row_number
+                  type: int(11)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: column_number
+                  type: int(11)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: widget_id
+            baseTableName: widget_location
+            constraintName: fk_widget_location
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: widgets
+        - addForeignKeyConstraint:
+            baseColumnNames: workspace_id
+            baseTableName: widget_location
+            constraintName: fk_workspace_location
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: workspaces
+        - addUniqueConstraint:
+            columnNames: widget_id, workspace_id, row_number, column_number
+            constraintName: widget_position_unique
+            tableName: widget_location
