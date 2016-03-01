@@ -43,12 +43,14 @@ public class LocationControllerTests {
     @Before
     public void setUp() {
         widgetRepository.deleteAll();
+        workspaceRepository.deleteAll();
+        locationRepository.deleteAll();
 
         RestAssured.port = port;
     }
 
     @Test
-    public void addWidgetTest() {
+    public void addWidgetToWorkspaceTest() {
         // add new Widget
         String widgetName = "testWidgetName";
         String widgetType = "testWidgetType";
@@ -84,53 +86,13 @@ public class LocationControllerTests {
         int rowNumber = 9;
         int columnNumber = 8;
         url = "/api/placeWidget/" + parsedWorkspaceId + "/" + parsedWidgetId + "/" + rowNumber + "/" + columnNumber;
-        ///api/placeWidget/{workspaceId}/{widgetId}/{rowNumber}/{columnNumber}", method = RequestMethod.GET, produces = "application/json")
-        //http://localhost:8080/api/placeWidget/1/1/1/3
-    }
-
-    @Test
-    public void updateWidgetTest() {
-        // add new Widget
-        String widgetName = "testName";
-        String widgetType = "testType";
-        String url = "/api/widget/add/" + widgetName + "/" + widgetType;
-        String response = RestAssured.get(url).asString();
-
-        // update added Widget
-        String newWidgetName = "NewTestName";
-        String newWidgetType = "NewTestType";
-        url = "/api/widget/update/" + response + "/" + newWidgetName + "/" + newWidgetType;
         RestAssured
             .when()
             .get(url)
             .then()
             .statusCode(200)
-            .body("name", Matchers.equalTo(newWidgetName))
-            .body("widgetType", Matchers.equalTo(newWidgetType));
+            .body("rowNumber", Matchers.equalTo(rowNumber))
+            .body("columnNumber", Matchers.equalTo(columnNumber));
     }
 
-    @Test
-    public void deleteWorkspaceTest() {
-        // add new Widget
-        String widgetName = "testName";
-        String widgetType = "testType";
-        String url = "/api/widget/add/" + widgetName + "/" + widgetType;
-        String response = RestAssured.get(url).asString();
-
-        // check added Widget
-        Long parsedWidgetId = Long.parseLong(response);
-        url = "/api/widget/" + parsedWidgetId;
-        RestAssured
-            .when()
-            .get(url)
-            .then()
-            .statusCode(200)
-            .body("name", Matchers.equalTo(widgetName))
-            .body("widgetType", Matchers.equalTo(widgetType));
-
-        // delete added Widget
-        url = "/api/widget/delete/" + response;
-        response = RestAssured.get(url).asString();
-        assertFalse(response == "true");
-    }
 }

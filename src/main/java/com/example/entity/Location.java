@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "widget_location")
 @AssociationOverrides({ @AssociationOverride(name = "pk.workspace", joinColumns = @JoinColumn(name = "workspace_id") ),
@@ -17,9 +19,11 @@ public class Location {
 
     private LocationID pk = new LocationID();
 
+    @JsonView(com.example.entity.Location.class)
     @Column(name = "row_number", nullable = false)
     private int rowNumber;
 
+    @JsonView(com.example.entity.Location.class)
     @Column(name = "column_number", nullable = false)
     private int columnNumber;
 
