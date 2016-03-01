@@ -131,3 +131,15 @@ databaseChangeLog:
             columnNames: widget_id, workspace_id, row_number, column_number
             constraintName: widget_position_unique
             tableName: widget_location
+  - changeSet:
+      id: 6
+      author: evgeny
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: data_source
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+            tableName: widgets

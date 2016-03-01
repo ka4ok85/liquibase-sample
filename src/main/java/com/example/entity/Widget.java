@@ -37,6 +37,10 @@ public class Widget implements Persistable<Long> {
     @Column(name = "widget_type", unique = false, nullable = false, length = 255)
     private String widgetType;
 
+    @JsonView(com.example.entity.Widget.class)
+    @Column(name = "data_source", unique = false, nullable = false, length = 255)
+    private String dataSource;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.widget", cascade={CascadeType.PERSIST, CascadeType.MERGE})
     Set<Location> WidgetLocations = new HashSet<Location>();
 
@@ -57,6 +61,14 @@ public class Widget implements Persistable<Long> {
 
     public void setWidgetType(String widgetType) {
         this.widgetType = widgetType;
+    }
+
+    public String getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource) {
+        this.dataSource = dataSource;
     }
 
     public Set<Location> getWidgetLocations() {

@@ -43,7 +43,8 @@ public class WidgetControllerTests {
         // add new Widget
         String widgetName = "testName";
         String widgetType = "testType";
-        String url = "/api/widget/add/" + widgetName + "/" + widgetType;
+        String dataSource = "testdDataSource";
+        String url = "/api/widget/add/" + widgetName + "/" + widgetType + "/" + dataSource;
         String response = RestAssured.get(url).asString();
 
         // check added Widget
@@ -55,7 +56,8 @@ public class WidgetControllerTests {
             .then()
             .statusCode(200)
             .body("name", Matchers.equalTo(widgetName))
-            .body("widgetType", Matchers.equalTo(widgetType));
+            .body("widgetType", Matchers.equalTo(widgetType))
+            .body("dataSource", Matchers.equalTo(dataSource));
     }
 
     @Test
@@ -63,20 +65,23 @@ public class WidgetControllerTests {
         // add new Widget
         String widgetName = "testName";
         String widgetType = "testType";
-        String url = "/api/widget/add/" + widgetName + "/" + widgetType;
+        String dataSource = "testdDataSource";
+        String url = "/api/widget/add/" + widgetName + "/" + widgetType + "/" + dataSource;
         String response = RestAssured.get(url).asString();
 
         // update added Widget
         String newWidgetName = "NewTestName";
         String newWidgetType = "NewTestType";
-        url = "/api/widget/update/" + response + "/" + newWidgetName + "/" + newWidgetType;
+        String newDataSource = "NewDataSource";
+        url = "/api/widget/update/" + response + "/" + newWidgetName + "/" + newWidgetType + "/" + newDataSource;
         RestAssured
             .when()
             .get(url)
             .then()
             .statusCode(200)
             .body("name", Matchers.equalTo(newWidgetName))
-            .body("widgetType", Matchers.equalTo(newWidgetType));
+            .body("widgetType", Matchers.equalTo(newWidgetType))
+            .body("dataSource", Matchers.equalTo(newDataSource));
     }
 
     @Test
@@ -84,7 +89,8 @@ public class WidgetControllerTests {
         // add new Widget
         String widgetName = "testName";
         String widgetType = "testType";
-        String url = "/api/widget/add/" + widgetName + "/" + widgetType;
+        String dataSource = "testdDataSource";
+        String url = "/api/widget/add/" + widgetName + "/" + widgetType + "/" + dataSource;
         String response = RestAssured.get(url).asString();
 
         // check added Widget

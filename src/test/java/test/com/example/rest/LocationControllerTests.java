@@ -54,7 +54,8 @@ public class LocationControllerTests {
         // add new Widget
         String widgetName = "testWidgetName";
         String widgetType = "testWidgetType";
-        String url = "/api/widget/add/" + widgetName + "/" + widgetType;
+        String dataSource = "testdDataSource";
+        String url = "/api/widget/add/" + widgetName + "/" + widgetType + "/" + dataSource;
         String response = RestAssured.get(url).asString();
 
         // check added Widget
@@ -66,7 +67,8 @@ public class LocationControllerTests {
             .then()
             .statusCode(200)
             .body("name", Matchers.equalTo(widgetName))
-            .body("widgetType", Matchers.equalTo(widgetType));
+            .body("widgetType", Matchers.equalTo(widgetType))
+            .body("dataSource", Matchers.equalTo(dataSource));
 
         // add new Workspace
         String workspaceName = "testWorkspaceName";
